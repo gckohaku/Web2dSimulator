@@ -4,5 +4,20 @@
 
 	.content-container {
 		width: 80%;
+
+		.index-container {
+			width: 90%;
+			padding: 1rem;
+			padding-inline-start: 2rem;
+			border: #1c1c1c solid 1px;
+
+			.index-list {
+				li {
+					ul {
+						padding-inline-start: 1.5rem;
+					}
+				}
+			}
+		}
 	}
 }
