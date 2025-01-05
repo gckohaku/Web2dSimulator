@@ -1,0 +1,8 @@
+.content-wrapper {
+	display: flex;
+	justify-content: center;
+
+	.content-container {
+		width: 80%;
+	}
+}
