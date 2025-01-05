@@ -1,7 +1,12 @@
 header {
 	display: flex;
+	justify-content: center;
 
 	.header-container {
-		justify-content: center;
+		max-width: 80%;
+
+		h1 {
+			line-height: 2em;
+		}
 	}
 }
