@@ -1,5 +1,7 @@
 // @ts-check
 export function graphicMain() {
+	console.log("test");
+
 	/** @type {NodeListOf<Element>} */
 	const canvases = document.querySelectorAll(".graphic-canvas");
 
@@ -10,3 +12,5 @@ export function graphicMain() {
 		console.log(bouncingCircleCanvas);
 	}
 }
+
+window.onload = graphicMain;
