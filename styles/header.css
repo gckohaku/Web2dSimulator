@@ -1,0 +1,12 @@
+header {
+	display: flex;
+	justify-content: center;
+
+	.header-container {
+		max-width: 80%;
+
+		h1 {
+			line-height: 2em;
+		}
+	}
+}
