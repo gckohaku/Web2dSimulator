@@ -8,6 +8,8 @@ export function graphicMain() {
 	if (canvases[0] instanceof HTMLCanvasElement) {
 		/** @type {HTMLCanvasElement} */
 		const bouncingCircleCanvas = canvases[0];
+		bouncingCircleCanvas.width = window.innerWidth - 200;
+		bouncingCircleCanvas.height = window.innerHeight;
 
 		console.log(bouncingCircleCanvas);
 
