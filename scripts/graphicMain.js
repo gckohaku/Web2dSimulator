@@ -10,6 +10,13 @@ export function graphicMain() {
 		const bouncingCircleCanvas = canvases[0];
 
 		console.log(bouncingCircleCanvas);
+
+		const context = bouncingCircleCanvas.getContext("2d");
+
+		if (context) {
+			context.fillStyle = "#1c1c1c";
+			context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
+		}
 	}
 }
 
