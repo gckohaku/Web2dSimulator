@@ -17,13 +17,15 @@ export function graphicMain() {
 
 		let currentX = 0;
 
+		if (context) {
+			context.fillStyle = "#1c1c1c";
+			context.strokeStyle = "white";
+		}
+
 		function animationFrame() {
 			if (context) {
-				context.fillStyle = "#1c1c1c";
+				context.beginPath();
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
-
-				context.strokeStyle = "white";
-
 				context.arc(currentX, bouncingCircleCanvas.height / 2, 50, 0, Math.PI * 2);
 				context.stroke();
 			}
