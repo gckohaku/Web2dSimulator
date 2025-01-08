@@ -18,6 +18,11 @@ export function graphicMain() {
 		if (context) {
 			context.fillStyle = "#1c1c1c";
 			context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
+
+			context.strokeStyle = "white";
+
+			context.arc(bouncingCircleCanvas.width / 2, bouncingCircleCanvas.height / 2, 50, 0, Math.PI * 2);
+			context.stroke();
 		}
 	}
 }
