@@ -30,7 +30,7 @@ export function graphicMain() {
 				context.stroke();
 			}
 
-			currentX++;
+			currentX = (currentX + 1) % bouncingCircleCanvas.width;
 
 			window.requestAnimationFrame(animationFrame);
 		}
