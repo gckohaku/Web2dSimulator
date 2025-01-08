@@ -15,15 +15,25 @@ export function graphicMain() {
 
 		const context = bouncingCircleCanvas.getContext("2d");
 
-		if (context) {
-			context.fillStyle = "#1c1c1c";
-			context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
+		let currentX = 0;
 
-			context.strokeStyle = "white";
+		function animationFrame() {
+			if (context) {
+				context.fillStyle = "#1c1c1c";
+				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
 
-			context.arc(bouncingCircleCanvas.width / 2, bouncingCircleCanvas.height / 2, 50, 0, Math.PI * 2);
-			context.stroke();
+				context.strokeStyle = "white";
+
+				context.arc(currentX, bouncingCircleCanvas.height / 2, 50, 0, Math.PI * 2);
+				context.stroke();
+			}
+
+			currentX++;
+
+			window.requestAnimationFrame(animationFrame);
 		}
+
+		window.requestAnimationFrame(animationFrame);
 	}
 }
 
