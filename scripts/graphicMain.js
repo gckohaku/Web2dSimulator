@@ -24,11 +24,23 @@ export function graphicMain() {
 			context.strokeStyle = "white";
 		}
 
-		function animationFrame() {
+		let beforeTimeStamp = -1;
+
+		/**
+		 * @param {DOMHighResTimeStamp} timeStamp
+		 */
+		function animationFrame(timeStamp) {
+			if (timeStamp - beforeTimeStamp < 900 / 60) {
+				window.requestAnimationFrame(animationFrame);
+				return;
+			}
+
+			beforeTimeStamp = timeStamp;
+
 			const oneAroundFrames = 120;
 
 			if (context) {
-				const angle = 2 * Math.PI * currentCount / oneAroundFrames;
+				const angle = (2 * Math.PI * currentCount) / oneAroundFrames;
 
 				context.beginPath();
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
