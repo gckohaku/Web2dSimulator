@@ -15,7 +15,9 @@ export function graphicMain() {
 
 		const context = bouncingCircleCanvas.getContext("2d");
 
-		let currentX = 0;
+		let currentCount = 0;
+		const centerX = bouncingCircleCanvas.width / 2;
+		const centerY = bouncingCircleCanvas.height / 2;
 
 		if (context) {
 			context.fillStyle = "#1c1c1c";
@@ -23,14 +25,18 @@ export function graphicMain() {
 		}
 
 		function animationFrame() {
+			const oneAroundFrames = 120;
+
 			if (context) {
+				const angle = 2 * Math.PI * currentCount / oneAroundFrames;
+
 				context.beginPath();
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
-				context.arc(currentX, bouncingCircleCanvas.height / 2, 50, 0, Math.PI * 2);
+				context.arc(centerX + Math.cos(angle) * 300, centerY + Math.sin(angle) * 300, 50, 0, Math.PI * 2);
 				context.stroke();
 			}
 
-			currentX = (currentX + 1) % bouncingCircleCanvas.width;
+			currentCount = (currentCount + 1) % oneAroundFrames;
 
 			window.requestAnimationFrame(animationFrame);
 		}
