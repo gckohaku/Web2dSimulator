@@ -25,17 +25,12 @@ export function graphicMain() {
 		}
 
 		let beforeTimeStamp = -1;
+		const fpsViewCount = 60;
+		let frameCount = 0;
+		let beforeFpsViewTime = performance.now();
 
-		/**
-		 * @param {DOMHighResTimeStamp} timeStamp
-		 */
-		function animationFrame(timeStamp) {
-			if (timeStamp - beforeTimeStamp < 900 / 60) {
-				window.requestAnimationFrame(animationFrame);
-				return;
-			}
-
-			beforeTimeStamp = timeStamp;
+		function animationFrame() {
+			beforeTimeStamp = performance.now();
 
 			const oneAroundFrames = 120;
 
@@ -50,10 +45,22 @@ export function graphicMain() {
 
 			currentCount = (currentCount + 1) % oneAroundFrames;
 
-			window.requestAnimationFrame(animationFrame);
+			frameCount++;
+			if (frameCount >= fpsViewCount) {
+				const now = performance.now();
+				console.log("fps: ", frameCount / (now - beforeFpsViewTime) * 1000);
+
+				frameCount = 0;
+				beforeFpsViewTime = now;
+			}
+
+			const before = beforeTimeStamp;
+			const now = performance.now();
+			const timeOutDuration = Math.max(1000 / 60 - (now - before), 0);
+			setTimeout(animationFrame, timeOutDuration);
 		}
 
-		window.requestAnimationFrame(animationFrame);
+		animationFrame();
 	}
 }
 
