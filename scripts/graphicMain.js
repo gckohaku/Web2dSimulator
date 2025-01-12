@@ -15,12 +15,10 @@ export function graphicMain() {
 
 		const context = bouncingCircleCanvas.getContext("2d");
 
-		let currentCount = 0;
 		const centerX = bouncingCircleCanvas.width / 2;
 		const centerY = bouncingCircleCanvas.height / 2;
 
 		if (context) {
-			context.fillStyle = "#1c1c1c";
 			context.strokeStyle = "white";
 		}
 
@@ -32,18 +30,20 @@ export function graphicMain() {
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
-			const oneAroundFrames = 120;
-
 			if (context) {
-				const angle = (2 * Math.PI * currentCount) / oneAroundFrames;
+				context.fillStyle = "#1c1c1c";
+				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
 
 				context.beginPath();
-				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
-				context.arc(centerX + Math.cos(angle) * 300, centerY + Math.sin(angle) * 300, 50, 0, Math.PI * 2);
+				context.arc(centerX, centerY, 300, 0, 2 * Math.PI);
+				context.stroke();
+
+				context.beginPath();
+				context.arc(centerX, centerY, 25, 0, 2 * Math.PI);
+				context.fillStyle = "green";
+				context.fill();
 				context.stroke();
 			}
-
-			currentCount = (currentCount + 1) % oneAroundFrames;
 
 			frameCount++;
 			if (frameCount >= fpsViewCount) {
