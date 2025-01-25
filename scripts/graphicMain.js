@@ -27,6 +27,12 @@ export function graphicMain() {
 		let frameCount = 0;
 		let beforeFpsViewTime = performance.now();
 
+		let positionX = centerX;
+		let positionY = centerY;
+		let moveX = 1;
+		let moveY = 0;
+		const radius = 20;
+
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
@@ -34,12 +40,14 @@ export function graphicMain() {
 				context.fillStyle = "#1c1c1c";
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
 
+				// big circle
 				context.beginPath();
 				context.arc(centerX, centerY, 300, 0, 2 * Math.PI);
 				context.stroke();
 
+				// small circle
 				context.beginPath();
-				context.arc(centerX, centerY, 25, 0, 2 * Math.PI);
+				context.arc(positionX, positionY, radius, 0, 2 * Math.PI);
 				context.fillStyle = "green";
 				context.fill();
 				context.stroke();
@@ -53,6 +61,9 @@ export function graphicMain() {
 				frameCount = 0;
 				beforeFpsViewTime = now;
 			}
+
+			positionX += moveX;
+			positionY += moveY;
 
 			const before = beforeTimeStamp;
 			const now = performance.now();
