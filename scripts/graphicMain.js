@@ -29,8 +29,8 @@ export function graphicMain() {
 
 		let positionX = centerX;
 		let positionY = centerY;
-		let moveX = 1;
-		let moveY = 0;
+		let moveX = 5;
+		let moveY = 5;
 		const radius = 20;
 
 		function animationFrame() {
