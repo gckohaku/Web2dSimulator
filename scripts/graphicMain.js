@@ -36,6 +36,12 @@ export function graphicMain() {
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
+			// 衝突していたら真ん中に戻す
+			if (Math.sqrt(Math.abs(positionX - centerX) ** 2 + Math.abs(positionY - centerY) ** 2) >= 300 - radius) {
+				positionX = centerX;
+				positionY = centerY;
+			}
+
 			if (context) {
 				context.fillStyle = "#1c1c1c";
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
