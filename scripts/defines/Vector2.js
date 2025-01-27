@@ -3,11 +3,11 @@ export class Vector2 {
 	/**
 	 * @type {number}
 	 */
-	x;
+	x = 0;
 	/**
 	 * @type {number}
 	 */
-	y;
+	y = 0;
 
 	/**
 	 * @overload
@@ -28,10 +28,6 @@ export class Vector2 {
 			if (param1 instanceof Vector2) {
 				this.x = param1.x;
 				this.y = param2.y;
-			}
-			else if (!param1) {
-				this.x = 0;
-				this.y = 0;
 			}
 		}
 	}
