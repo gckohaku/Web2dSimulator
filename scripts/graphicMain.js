@@ -1,7 +1,8 @@
 // @ts-check
-export function graphicMain() {
-	console.log("test");
+import { Circle } from "./defines/Circle.js";
+import { Vector2 } from "./defines/Vector2.js";
 
+export function graphicMain() {
 	/** @type {NodeListOf<Element>} */
 	const canvases = document.querySelectorAll(".graphic-canvas");
 
@@ -11,12 +12,10 @@ export function graphicMain() {
 		bouncingCircleCanvas.width = window.innerWidth - 200;
 		bouncingCircleCanvas.height = window.innerHeight;
 
-		console.log(bouncingCircleCanvas);
-
 		const context = bouncingCircleCanvas.getContext("2d");
 
-		const centerX = bouncingCircleCanvas.width / 2;
-		const centerY = bouncingCircleCanvas.height / 2;
+		/** @type {Vector2} */
+		const center = new Vector2(bouncingCircleCanvas.width, bouncingCircleCanvas.height).scalarMultiply(0.5);
 
 		if (context) {
 			context.strokeStyle = "white";
@@ -27,19 +26,21 @@ export function graphicMain() {
 		let frameCount = 0;
 		let beforeFpsViewTime = performance.now();
 
-		let positionX = centerX;
-		let positionY = centerY;
-		let moveX = 5;
-		let moveY = 5;
-		const radius = 20;
+		/** @type {Circle} */
+		const smallCircle = new Circle(center.x, center.y, 20);
+
+		/** @type {Circle} */
+		const bigCircle = new Circle(center.x, center.y, 300);
+
+		/** @type {Vector2} */
+		const move = new Vector2(5, 5);
 
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
 			// 衝突していたら真ん中に戻す
-			if (Math.sqrt(Math.abs(positionX - centerX) ** 2 + Math.abs(positionY - centerY) ** 2) >= 300 - radius) {
-				positionX = centerX;
-				positionY = centerY;
+			if (bigCircle.innerCollisionToCircle(smallCircle)) {
+				smallCircle.position = center;
 			}
 
 			if (context) {
@@ -48,12 +49,12 @@ export function graphicMain() {
 
 				// big circle
 				context.beginPath();
-				context.arc(centerX, centerY, 300, 0, 2 * Math.PI);
+				context.arc(bigCircle.position.x, bigCircle.position.y, bigCircle.radius, 0, 2 * Math.PI);
 				context.stroke();
 
 				// small circle
 				context.beginPath();
-				context.arc(positionX, positionY, radius, 0, 2 * Math.PI);
+				context.arc(smallCircle.position.x, smallCircle.position.y, smallCircle.radius, 0, 2 * Math.PI);
 				context.fillStyle = "green";
 				context.fill();
 				context.stroke();
@@ -68,8 +69,7 @@ export function graphicMain() {
 				beforeFpsViewTime = now;
 			}
 
-			positionX += moveX;
-			positionY += moveY;
+			smallCircle.position.add(move);
 
 			const before = beforeTimeStamp;
 			const now = performance.now();
