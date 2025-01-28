@@ -27,7 +27,7 @@ export class Vector2 {
 		else if (!param2) {
 			if (param1 instanceof Vector2) {
 				this.x = param1.x;
-				this.y = param2.y;
+				this.y = param1.y;
 			}
 		}
 	}
