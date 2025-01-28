@@ -69,7 +69,7 @@ export function graphicMain() {
 				beforeFpsViewTime = now;
 			}
 
-			smallCircle.position.add(move);
+			smallCircle.position.addToSelf(move);
 
 			const before = beforeTimeStamp;
 			const now = performance.now();

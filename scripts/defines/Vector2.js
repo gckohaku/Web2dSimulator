@@ -50,12 +50,30 @@ export class Vector2 {
 	}
 
 	/**
+	 * 自分自身にベクトルを足す (破壊的操作)
+	 * @param {Vector2} opponent 
+	 */
+	addToSelf(opponent) {
+		this.x += opponent.x;
+		this.y += opponent.y;
+	}
+
+	/**
 	 * ベクトルのスカラー積
 	 * @param {number} n
 	 * @return {Vector2} スカラー積の値 
 	 */
 	scalarMultiply(n) {
 		return new Vector2(this.x * n, this.y * n);
+	}
+
+	/**
+	 * 自分自身をスカラー積する (破壊的操作)
+	 * @param {number} n
+	 */
+	scalarMultiplyToSelf(n) {
+		this.x *= n;
+		this.y *= n;
 	}
 
 	/**
@@ -73,6 +91,14 @@ export class Vector2 {
 	 */
 	subtract(opponent) {
 		return this.add(opponent.unaryMinus());
+	}
+
+	/**
+	 * 自分自身からベクトルを引く (破壊的操作)
+	 * @param {Vector2} opponent 
+	 */
+	subtractToSelf(opponent) {
+		this.addToSelf(opponent.unaryMinus());
 	}
 
 	/**
