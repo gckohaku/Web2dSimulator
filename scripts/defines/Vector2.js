@@ -27,7 +27,7 @@ export class Vector2 {
 		else if (!param2) {
 			if (param1 instanceof Vector2) {
 				this.x = param1.x;
-				this.y = param2.y;
+				this.y = param1.y;
 			}
 		}
 	}
@@ -50,12 +50,30 @@ export class Vector2 {
 	}
 
 	/**
+	 * 自分自身にベクトルを足す (破壊的操作)
+	 * @param {Vector2} opponent 
+	 */
+	addToSelf(opponent) {
+		this.x += opponent.x;
+		this.y += opponent.y;
+	}
+
+	/**
 	 * ベクトルのスカラー積
 	 * @param {number} n
 	 * @return {Vector2} スカラー積の値 
 	 */
 	scalarMultiply(n) {
 		return new Vector2(this.x * n, this.y * n);
+	}
+
+	/**
+	 * 自分自身をスカラー積する (破壊的操作)
+	 * @param {number} n
+	 */
+	scalarMultiplyToSelf(n) {
+		this.x *= n;
+		this.y *= n;
 	}
 
 	/**
@@ -76,6 +94,14 @@ export class Vector2 {
 	}
 
 	/**
+	 * 自分自身からベクトルを引く (破壊的操作)
+	 * @param {Vector2} opponent 
+	 */
+	subtractToSelf(opponent) {
+		this.addToSelf(opponent.unaryMinus());
+	}
+
+	/**
 	 * ドット積の計算
 	 * @param {Vector2} opponent
 	 * @return {number} ドット積の結果
@@ -91,5 +117,10 @@ export class Vector2 {
 	 */
 	cross(opponent) {
 		return this.x * opponent.y - this.y * opponent.x;
+	}
+
+	// 自身を複製する
+	copy() {
+		return new Vector2(this);
 	}
 }

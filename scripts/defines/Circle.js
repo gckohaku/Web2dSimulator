@@ -1,14 +1,11 @@
 // @ts-check
-import { Vector2 } from "./Vector2";
+import { Vector2 } from "./Vector2.js";
 
 export class Circle {
-	/**
-	 * @param {Vector2}
-	 */
+	/** @property {Vector2} */
 	position = new Vector2();
-	/**
-	 * @param {number}
-	 */
+	
+	/** @property {number} */
 	radius = 0;
 
 	/**
