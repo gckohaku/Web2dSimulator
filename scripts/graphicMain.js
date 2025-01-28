@@ -40,7 +40,7 @@ export function graphicMain() {
 
 			// 衝突していたら真ん中に戻す
 			if (bigCircle.innerCollisionToCircle(smallCircle)) {
-				smallCircle.position = center;
+				smallCircle.position = center.copy();
 			}
 
 			if (context) {

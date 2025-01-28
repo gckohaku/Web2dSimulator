@@ -118,4 +118,9 @@ export class Vector2 {
 	cross(opponent) {
 		return this.x * opponent.y - this.y * opponent.x;
 	}
+
+	// 自身を複製する
+	copy() {
+		return new Vector2(this);
+	}
 }
