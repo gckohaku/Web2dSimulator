@@ -1,7 +1,7 @@
+// @ts-check
 import { Vector2 } from "./Vector2";
 
-// @ts-check
-class Circle {
+export class Circle {
 	/**
 	 * @param {Vector2}
 	 */
