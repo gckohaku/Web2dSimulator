@@ -1,5 +1,6 @@
 // @ts-check
 import { Circle } from "./defines/Circle.js";
+import { CircleCanvas2d } from "./defines/CircleCanvas2d.js";
 import { Vector2 } from "./defines/Vector2.js";
 
 export function graphicMain() {
@@ -26,11 +27,12 @@ export function graphicMain() {
 		let frameCount = 0;
 		let beforeFpsViewTime = performance.now();
 
-		/** @type {Circle} */
-		const smallCircle = new Circle(center.x, center.y, 20);
+		/** @type {CircleCanvas2d} */
+		const smallCircle = new CircleCanvas2d(center.x, center.y, 20);
+		smallCircle.fillStyle = "green";
 
-		/** @type {Circle} */
-		const bigCircle = new Circle(center.x, center.y, 300);
+		/** @type {CircleCanvas2d} */
+		const bigCircle = new CircleCanvas2d(center.x, center.y, 300);
 
 		/** @type {Vector2} */
 		const move = new Vector2(5, 5);
@@ -48,16 +50,10 @@ export function graphicMain() {
 				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
 
 				// big circle
-				context.beginPath();
-				context.arc(bigCircle.position.x, bigCircle.position.y, bigCircle.radius, 0, 2 * Math.PI);
-				context.stroke();
+				bigCircle.strokeCircle(context);
 
 				// small circle
-				context.beginPath();
-				context.arc(smallCircle.position.x, smallCircle.position.y, smallCircle.radius, 0, 2 * Math.PI);
-				context.fillStyle = "green";
-				context.fill();
-				context.stroke();
+				smallCircle.drawCircle(context);
 			}
 
 			frameCount++;
