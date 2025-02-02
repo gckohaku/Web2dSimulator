@@ -28,21 +28,37 @@ export class CircleCanvas2d extends Circle {
 	}
 
 	/**
-	 * 
+	 * 円のパスを作成
 	 * @param {CanvasRenderingContext2D} context 
 	 */
-	drawPath(context) {
+	createPath(context) {
 		context.arc(this.position.x, this.position.y, this.radius, 0, 2 * Math.PI);
 	}
 
 	/**
-	 * 
+	 * 円の輪郭を表示
 	 * @param {CanvasRenderingContext2D} context 
-	 * @param {boolean} [isIndependentPath=true]
+	 * @param {boolean} [isNewCreatePath=true] 新たにパスを作成するか
 	 */
-	strokeCircle(context, isIndependentPath) {
-		if (isIndependentPath) {
+	strokeCircle(context, isNewCreatePath) {
+		if (isNewCreatePath) {
 			context.beginPath();
+			this.createPath(context);
+		}
+
+		context.strokeStyle = this.strokeStyle;
+		context.stroke();
+	}
+
+	/**
+	 * 円を塗りつぶして表示
+	 * @param {CanvasRenderingContext2D} context 
+	 * @param {boolean} [isNewCreatePath=true] 新たにパスを作成するか
+	 */
+	fillCircle(context, isNewCreatePath = true) {
+		if (isNewCreatePath) {
+			context.beginPath();
+			this.createPath(context);
 		}
 
 		context.fillStyle = this.fillStyle;
@@ -50,30 +66,16 @@ export class CircleCanvas2d extends Circle {
 	}
 
 	/**
-	 * 
+	 * 円の表示 (塗りつぶし + 輪郭)
 	 * @param {CanvasRenderingContext2D} context 
-	 * @param {boolean} [isIndependentPath=true]
+	 * @param {boolean} [isNewCreatePath=true] 新たにパスを作成するか
 	 */
-	fillCircle(context, isIndependentPath = true) {
-		if (isIndependentPath) {
+	drawCircle(context, isNewCreatePath = true) {
+		if (isNewCreatePath) {
 			context.beginPath();
+			this.createPath(context);
 		}
 
-		context.fillStyle = this.fillStyle;
-		context.fill();
-	}
-
-	/**
-	 * 
-	 * @param {CanvasRenderingContext2D} context 
-	 * @param {boolean} [isIndependentPath=true]
-	 */
-	drawCircle(context, isIndependentPath = true) {
-		if (isIndependentPath) {
-			context.beginPath();
-		}
-
-		this.drawPath(context);
 		this.fillCircle(context, false);
 		this.strokeCircle(context, false);
 	}
