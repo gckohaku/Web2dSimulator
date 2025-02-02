@@ -40,7 +40,7 @@ export class CircleCanvas2d extends Circle {
 	 * @param {CanvasRenderingContext2D} context 
 	 * @param {boolean} [isNewCreatePath=true] 新たにパスを作成するか
 	 */
-	strokeCircle(context, isNewCreatePath) {
+	strokeCircle(context, isNewCreatePath = true) {
 		if (isNewCreatePath) {
 			context.beginPath();
 			this.createPath(context);

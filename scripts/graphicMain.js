@@ -37,8 +37,6 @@ export function graphicMain() {
 		/** @type {Vector2} */
 		const move = new Vector2(5, 5);
 
-		console.log(bigCircle.radius);
-
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
