@@ -47,10 +47,6 @@ export class CircleCanvas2d extends Circle {
 
 		context.fillStyle = this.fillStyle;
 		context.fill();
-
-		if (isIndependentPath) {
-			context.closePath();
-		}
 	}
 
 	/**
@@ -65,10 +61,6 @@ export class CircleCanvas2d extends Circle {
 
 		context.fillStyle = this.fillStyle;
 		context.fill();
-
-		if (isIndependentPath) {
-			context.closePath();
-		}
 	}
 
 	/**
@@ -84,9 +76,5 @@ export class CircleCanvas2d extends Circle {
 		this.drawPath(context);
 		this.fillCircle(context);
 		this.strokeCircle(context);
-
-		if (isIndependentPath) {
-			context.closePath();
-		}
 	}
 }
