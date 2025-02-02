@@ -74,7 +74,7 @@ export class CircleCanvas2d extends Circle {
 		}
 
 		this.drawPath(context);
-		this.fillCircle(context);
-		this.strokeCircle(context);
+		this.fillCircle(context, false);
+		this.strokeCircle(context, false);
 	}
 }
