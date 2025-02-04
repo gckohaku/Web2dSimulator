@@ -11,8 +11,7 @@ export class Circle {
 		return this._position;
 	}
 	set position(v) {
-		this._position.x = v.x;
-		this._position.y = v.y;
+		this._position = v.copy();
 	}
 
 	/**

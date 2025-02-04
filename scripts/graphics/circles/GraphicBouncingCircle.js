@@ -33,6 +33,18 @@ export class GraphicBouncingCircle {
 	_frameMoveSpeed;
 
 	/**
+	 * @private @readonly
+	 * @type {Vector2}
+	 */
+	INITIAL_MOVE_SPEED = new Vector2(3, -10);
+
+	/**
+	 * @private
+	 * @type {Vector2}
+	 */
+	_acceleration;
+
+	/**
 	 * 初期化
 	 * @param {CanvasRenderingContext2D} context 
 	 * @returns {number}
@@ -42,7 +54,8 @@ export class GraphicBouncingCircle {
 		this._smallCircle = new CircleCanvas2d(this._canvasCenter.x, this._canvasCenter.y, 20);
 		this._smallCircle.fillStyle = "green";
 		this._bigCircle = new CircleCanvas2d(this._canvasCenter.x, this._canvasCenter.y, 300);
-		this._frameMoveSpeed = new Vector2(5, 5);
+		this._frameMoveSpeed = this.INITIAL_MOVE_SPEED.copy();
+		this._acceleration = new Vector2(0, 1);
 
 		return 1;
 	}
@@ -55,7 +68,8 @@ export class GraphicBouncingCircle {
 	update(context) {
 		// 衝突していたら真ん中に戻す
 		if (this._bigCircle.innerCollisionToCircle(this._smallCircle)) {
-			this._smallCircle.position = this._canvasCenter.copy();
+			this._smallCircle.position = this._canvasCenter;
+			this._frameMoveSpeed = this.INITIAL_MOVE_SPEED.copy();
 		}
 
 		return 1;
@@ -77,6 +91,7 @@ export class GraphicBouncingCircle {
 		this._smallCircle.drawCircle(context);
 
 		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
+		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
