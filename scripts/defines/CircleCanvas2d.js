@@ -3,10 +3,26 @@ import { Circle } from "./Circle.js";
 import { Vector2 } from "./Vector2.js";
 
 export class CircleCanvas2d extends Circle {
-	/** @property {string | CanvasGradient | CanvasPattern} */
-	fillStyle = "white";
-	/** @property {string | CanvasGradient | CanvasPattern} */
-	strokeStyle = "white";
+	/**
+	 * @private 
+	 * @type {string | CanvasGradient | CanvasPattern}
+	 */
+	_fillStyle = "white";
+	get fillStyle() {
+		return this._fillStyle;
+	}
+	set fillStyle(style) {
+		this._fillStyle = style;
+	}
+
+	/** @type {string | CanvasGradient | CanvasPattern} */
+	_strokeStyle = "white";
+	get strokeStyle() {
+		return this._strokeStyle;
+	}
+	set strokeStyle(style) {
+		this._strokeStyle = style;
+	}
 
 	/**
 	 * @overload
@@ -46,7 +62,7 @@ export class CircleCanvas2d extends Circle {
 			this.createPath(context);
 		}
 
-		context.strokeStyle = this.strokeStyle;
+		context.strokeStyle = this._strokeStyle;
 		context.stroke();
 	}
 
@@ -61,7 +77,7 @@ export class CircleCanvas2d extends Circle {
 			this.createPath(context);
 		}
 
-		context.fillStyle = this.fillStyle;
+		context.fillStyle = this._fillStyle;
 		context.fill();
 	}
 

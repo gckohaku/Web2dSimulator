@@ -2,11 +2,30 @@
 import { Vector2 } from "./Vector2.js";
 
 export class Circle {
-	/** @property {Vector2} */
-	position = new Vector2();
-	
-	/** @property {number} */
-	radius = 0;
+	/**
+	 * @private 
+	 * @type {Vector2} 
+	 */
+	_position = new Vector2();
+	get position() {
+		return this._position;
+	}
+	set position(v) {
+		this._position.x = v.x;
+		this._position.y = v.y;
+	}
+
+	/**
+	 * @private
+	 * @type {number}
+	 */
+	_radius = 0;
+	get radius() {
+		return this._radius;
+	}
+	set radius(value) {
+		this._radius = value;
+	}
 
 	/**
 	 * @overload
@@ -25,16 +44,16 @@ export class Circle {
 	 */
 	constructor(param1, param2, param3) {
 		if (param1 instanceof Vector2 && typeof param2 === "number") {
-			this.position = param1;
+			this._position = param1;
 			this.radius = param2;
 		}
 		else if (typeof param1 === "number" && typeof param2 === "number" && typeof param3 === "number") {
-			this.position = new Vector2(param1, param2);
+			this._position = new Vector2(param1, param2);
 			this.radius = param3;
 		}
 		else if (param1 instanceof Circle) {
-			this.position = param1.position;
-			this.radius = param1.radius;
+			this._position = param1._position;
+			this.radius = param1._radius;
 		}
 	}
 
@@ -44,8 +63,8 @@ export class Circle {
 	 * @return {boolean} 衝突していたら true, そうでなければ false
 	 */
 	collisionCircle(opponent) {
-		const totalRadius = this.radius + opponent.radius;
-		const distance = (this.position.subtract(opponent.position)).norm();
+		const totalRadius = this._radius + opponent._radius;
+		const distance = (this._position.subtract(opponent._position)).norm();
 
 		return distance < totalRadius;
 	}
@@ -56,8 +75,8 @@ export class Circle {
 	 * @return {boolean} 衝突していたら true, そうでなければ false
 	 */
 	innerCollisionToCircle(opponent) {
-		const distance = (this.position.subtract(opponent.position)).norm();
+		const distance = (this._position.subtract(opponent._position)).norm();
 
-		return distance > this.radius - opponent.radius;
+		return distance > this._radius - opponent._radius;
 	}
 }
