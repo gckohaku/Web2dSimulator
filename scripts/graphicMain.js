@@ -1,7 +1,5 @@
 // @ts-check
-import { Circle } from "./defines/Circle.js";
-import { CircleCanvas2d } from "./defines/CircleCanvas2d.js";
-import { Vector2 } from "./defines/Vector2.js";
+import { GraphicBouncingCircle } from "./graphics/circles/GraphicBouncingCircle.js";
 
 export function graphicMain() {
 	/** @type {NodeListOf<Element>} */
@@ -15,11 +13,10 @@ export function graphicMain() {
 
 		const context = bouncingCircleCanvas.getContext("2d");
 
-		/** @type {Vector2} */
-		const center = new Vector2(bouncingCircleCanvas.width, bouncingCircleCanvas.height).scalarMultiply(0.5);
+		const graphicBouncingCircle = new GraphicBouncingCircle();
 
 		if (context) {
-			context.strokeStyle = "white";
+			graphicBouncingCircle.initialize(context);
 		}
 
 		let beforeTimeStamp = -1;
@@ -27,33 +24,12 @@ export function graphicMain() {
 		let frameCount = 0;
 		let beforeFpsViewTime = performance.now();
 
-		/** @type {CircleCanvas2d} */
-		const smallCircle = new CircleCanvas2d(center.x, center.y, 20);
-		smallCircle.fillStyle = "green";
-
-		/** @type {CircleCanvas2d} */
-		const bigCircle = new CircleCanvas2d(center.x, center.y, 300);
-
-		/** @type {Vector2} */
-		const move = new Vector2(5, 5);
-
 		function animationFrame() {
 			beforeTimeStamp = performance.now();
 
-			// 衝突していたら真ん中に戻す
-			if (bigCircle.innerCollisionToCircle(smallCircle)) {
-				smallCircle.position = center.copy();
-			}
-
 			if (context) {
-				context.fillStyle = "#1c1c1c";
-				context.fillRect(0, 0, bouncingCircleCanvas.width, bouncingCircleCanvas.height);
-
-				// big circle
-				bigCircle.strokeCircle(context);
-
-				// small circle
-				smallCircle.drawCircle(context);
+				graphicBouncingCircle.update(context);
+				graphicBouncingCircle.draw(context);
 			}
 
 			frameCount++;
@@ -64,8 +40,6 @@ export function graphicMain() {
 				frameCount = 0;
 				beforeFpsViewTime = now;
 			}
-
-			smallCircle.position.addToSelf(move);
 
 			const before = beforeTimeStamp;
 			const now = performance.now();

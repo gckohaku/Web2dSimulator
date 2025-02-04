@@ -1,13 +1,28 @@
 // @ts-check
 export class Vector2 {
 	/**
+	 * @private
 	 * @type {number}
 	 */
-	x = 0;
+	_x = 0;
+	get x() {
+		return this._x;
+	}
+	set x(value) {
+		this._x = value
+	}
+
 	/**
+	 * @private
 	 * @type {number}
 	 */
-	y = 0;
+	_y = 0;
+	get y() {
+		return this._y;
+	}
+	set y(value) {
+		this._y = value;
+	}
 
 	/**
 	 * @overload
@@ -21,13 +36,13 @@ export class Vector2 {
 	 */
 	constructor(param1, param2) {
 		if (typeof param1 === "number" && typeof param2 === "number") {
-			this.x = param1;
-			this.y = param2;
+			this._x = param1;
+			this._y = param2;
 		}
 		else if (!param2) {
 			if (param1 instanceof Vector2) {
-				this.x = param1.x;
-				this.y = param1.y;
+				this._x = param1._x;
+				this._y = param1._y;
 			}
 		}
 	}
@@ -37,7 +52,7 @@ export class Vector2 {
 	 * @return {number}
 	 */
 	norm() {
-		return Math.sqrt(this.x ** 2 + this.y ** 2);
+		return Math.sqrt(this._x ** 2 + this._y ** 2);
 	}
 
 	/**
@@ -46,7 +61,7 @@ export class Vector2 {
 	 * @return {Vector2} 加算結果
 	 */
 	add(opponent) {
-		return new Vector2(this.x + opponent.x, this.y + opponent.y);
+		return new Vector2(this._x + opponent._x, this._y + opponent._y);
 	}
 
 	/**
@@ -54,8 +69,8 @@ export class Vector2 {
 	 * @param {Vector2} opponent 
 	 */
 	addToSelf(opponent) {
-		this.x += opponent.x;
-		this.y += opponent.y;
+		this._x += opponent._x;
+		this._y += opponent._y;
 	}
 
 	/**
@@ -64,7 +79,7 @@ export class Vector2 {
 	 * @return {Vector2} スカラー積の値 
 	 */
 	scalarMultiply(n) {
-		return new Vector2(this.x * n, this.y * n);
+		return new Vector2(this._x * n, this._y * n);
 	}
 
 	/**
@@ -72,8 +87,8 @@ export class Vector2 {
 	 * @param {number} n
 	 */
 	scalarMultiplyToSelf(n) {
-		this.x *= n;
-		this.y *= n;
+		this._x *= n;
+		this._y *= n;
 	}
 
 	/**
@@ -107,7 +122,7 @@ export class Vector2 {
 	 * @return {number} ドット積の結果
 	 */
 	dot(opponent) {
-		return this.x * opponent.x + this.y * opponent.y;
+		return this._x * opponent._x + this._y * opponent._y;
 	}
 
 	/**
@@ -116,7 +131,7 @@ export class Vector2 {
 	 * @return {number} クロス積の結果の z 要素の値
 	 */
 	cross(opponent) {
-		return this.x * opponent.y - this.y * opponent.x;
+		return this._x * opponent._y - this._y * opponent._x;
 	}
 
 	// 自身を複製する
