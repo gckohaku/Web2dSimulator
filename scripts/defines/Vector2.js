@@ -67,10 +67,13 @@ export class Vector2 {
 	/**
 	 * 自分自身にベクトルを足す (破壊的操作)
 	 * @param {Vector2} opponent 
+	 * @return {this}
 	 */
 	addToSelf(opponent) {
 		this._x += opponent._x;
 		this._y += opponent._y;
+
+		return this;
 	}
 
 	/**
@@ -85,10 +88,13 @@ export class Vector2 {
 	/**
 	 * 自分自身をスカラー積する (破壊的操作)
 	 * @param {number} n
+	 * @return {this}
 	 */
 	scalarMultiplyToSelf(n) {
 		this._x *= n;
 		this._y *= n;
+
+		return this;
 	}
 
 	/**
@@ -111,9 +117,12 @@ export class Vector2 {
 	/**
 	 * 自分自身からベクトルを引く (破壊的操作)
 	 * @param {Vector2} opponent 
+	 * @return {this}
 	 */
 	subtractToSelf(opponent) {
 		this.addToSelf(opponent.unaryMinus());
+
+		return this;
 	}
 
 	/**
@@ -134,8 +143,15 @@ export class Vector2 {
 		return this._x * opponent._y - this._y * opponent._x;
 	}
 
-	// 自身を複製する
-	copy() {
-		return new Vector2(this);
+	/**
+	 * Vector2 の値を自身にコピーする
+	 * @param {Vector2} v 
+	 * @return {this}
+	 */
+	copyFrom(v) {
+		this._x = v.x;
+		this._y = v.y;
+
+		return this;
 	}
 }
