@@ -57,6 +57,9 @@ export class GraphicBouncingCircle {
 		this._frameMoveSpeed = new Vector2().copyFrom(this.INITIAL_MOVE_SPEED);
 		this._acceleration = new Vector2(0, 1);
 
+		this._frameMoveSpeed.subtractToSelf(this._acceleration);
+		this._smallCircle.position.subtractToSelf(this._acceleration);
+
 		return 1;
 	}
 
@@ -71,6 +74,9 @@ export class GraphicBouncingCircle {
 			this._smallCircle.position = this._canvasCenter;
 			this._frameMoveSpeed.copyFrom(this.INITIAL_MOVE_SPEED);
 		}
+
+		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
+		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
@@ -89,20 +95,6 @@ export class GraphicBouncingCircle {
 
 		// small circle
 		this._smallCircle.drawCircle(context);
-
-		this.updateAfterDraw();
-
-		return 1;
-	}
-
-	/**
-	 * @private
-	 * 描画処理が実行されたあとの更新処理
-	 * @return {number}
-	 */
-	updateAfterDraw() {
-		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
-		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
