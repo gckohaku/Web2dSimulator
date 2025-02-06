@@ -69,14 +69,14 @@ export class GraphicBouncingCircle {
 	 * @returns {number}
 	 */
 	update(context) {
+		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
+		this._frameMoveSpeed.addToSelf(this._acceleration);
+		
 		// 衝突していたら真ん中に戻す
 		if (this._bigCircle.innerCollisionToCircle(this._smallCircle)) {
 			this._smallCircle.position = this._canvasCenter;
 			this._frameMoveSpeed.copyFrom(this.INITIAL_MOVE_SPEED);
 		}
-
-		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
-		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
