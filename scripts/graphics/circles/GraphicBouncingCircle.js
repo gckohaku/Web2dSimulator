@@ -22,6 +22,12 @@ export class GraphicBouncingCircle {
 
 	/**
 	 * @private
+	 * @type {Vector2}
+	 */
+	_beforeSmallPosition;
+
+	/**
+	 * @private
 	 * @type {CircleCanvas2d} 
 	 */
 	_bigCircle;
@@ -58,7 +64,9 @@ export class GraphicBouncingCircle {
 		this._acceleration = new Vector2(0, 1);
 
 		this._frameMoveSpeed.subtractToSelf(this._acceleration);
-		this._smallCircle.position.subtractToSelf(this._acceleration);
+		this._smallCircle.position.subtractToSelf(this._frameMoveSpeed);
+
+		this._beforeSmallPosition = new Vector2();
 
 		return 1;
 	}
@@ -69,14 +77,35 @@ export class GraphicBouncingCircle {
 	 * @returns {number}
 	 */
 	update(context) {
+		this._beforeSmallPosition.copyFrom(this._smallCircle.position);
 		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
-		this._frameMoveSpeed.addToSelf(this._acceleration);
 		
-		// 衝突していたら真ん中に戻す
+		// 衝突していたら跳ね返る
 		if (this._bigCircle.innerCollisionToCircle(this._smallCircle)) {
-			this._smallCircle.position = this._canvasCenter;
-			this._frameMoveSpeed.copyFrom(this.INITIAL_MOVE_SPEED);
+			const smallPos = this._smallCircle.position;
+			const bigPos = this._bigCircle.position;
+			const distance = smallPos.subtract(bigPos);
+			const beforeDistance = this._beforeSmallPosition.subtract(bigPos);
+
+			// はみ出した分を戻す
+			const protrudingRate = Math.max(Math.min((distance.norm() - (this._bigCircle.radius - this._smallCircle.radius)) / (distance.norm() - beforeDistance.norm()), 1), 0);
+			smallPos.subtractToSelf(this._frameMoveSpeed.multiplyScalar(protrudingRate));
+
+			const fixDistance = smallPos.subtract(bigPos);
+
+			// big circle の中心から見た角度を元に跳ね返る角度を算出
+			const distanceAngle = fixDistance.angle();
+			const angleAfterBounce = distanceAngle + (distanceAngle - this._frameMoveSpeed.angle()) + Math.PI;
+
+			// 移動速度ベクトルに設定
+			const moveNorm = this._frameMoveSpeed.norm();
+			this._frameMoveSpeed.setByPolar(moveNorm, angleAfterBounce);
+
+			// さっきはみ出していた分だけ進める
+			smallPos.addToSelf(this._frameMoveSpeed.multiplyScalar(protrudingRate));
 		}
+
+		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}

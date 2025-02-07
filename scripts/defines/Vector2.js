@@ -56,6 +56,19 @@ export class Vector2 {
 	}
 
 	/**
+	 * ベクトルをノルムと角度で設定する
+	 * @param {number} norm ベクトルの絶対値
+	 * @param {number} angle ベクトルが向く角度
+	 * @return {this}
+	 */
+	setByPolar(norm, angle) {
+		this._x = norm * Math.cos(angle);
+		this._y = norm * Math.sin(angle);
+
+		return this;
+	}
+
+	/**
 	 * ベクトル加算
 	 * @param {Vector2} opponent
 	 * @return {Vector2} 加算結果
@@ -81,7 +94,7 @@ export class Vector2 {
 	 * @param {number} n
 	 * @return {Vector2} スカラー積の値 
 	 */
-	scalarMultiply(n) {
+	multiplyScalar(n) {
 		return new Vector2(this._x * n, this._y * n);
 	}
 
@@ -90,7 +103,7 @@ export class Vector2 {
 	 * @param {number} n
 	 * @return {this}
 	 */
-	scalarMultiplyToSelf(n) {
+	multiplyScalarToSelf(n) {
 		this._x *= n;
 		this._y *= n;
 
@@ -102,7 +115,7 @@ export class Vector2 {
 	 * @return {Vector2} 自身のベクトルの逆ベクトル
 	 */
 	unaryMinus() {
-		return this.scalarMultiply(-1);
+		return this.multiplyScalar(-1);
 	}
 
 	/**
@@ -153,5 +166,9 @@ export class Vector2 {
 		this._y = v.y;
 
 		return this;
+	}
+
+	angle() {
+		return Math.atan2(this._y, this._x);
 	}
 }
