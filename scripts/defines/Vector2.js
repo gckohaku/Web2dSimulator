@@ -56,6 +56,19 @@ export class Vector2 {
 	}
 
 	/**
+	 * ベクトルをノルムと角度で設定する
+	 * @param {number} norm ベクトルの絶対値
+	 * @param {number} angle ベクトルが向く角度
+	 * @return {this}
+	 */
+	setByPolar(norm, angle) {
+		this._x = norm * Math.cos(angle);
+		this._y = norm * Math.sin(angle);
+
+		return this;
+	}
+
+	/**
 	 * ベクトル加算
 	 * @param {Vector2} opponent
 	 * @return {Vector2} 加算結果
@@ -67,10 +80,13 @@ export class Vector2 {
 	/**
 	 * 自分自身にベクトルを足す (破壊的操作)
 	 * @param {Vector2} opponent 
+	 * @return {this}
 	 */
 	addToSelf(opponent) {
 		this._x += opponent._x;
 		this._y += opponent._y;
+
+		return this;
 	}
 
 	/**
@@ -78,17 +94,20 @@ export class Vector2 {
 	 * @param {number} n
 	 * @return {Vector2} スカラー積の値 
 	 */
-	scalarMultiply(n) {
+	multiplyScalar(n) {
 		return new Vector2(this._x * n, this._y * n);
 	}
 
 	/**
 	 * 自分自身をスカラー積する (破壊的操作)
 	 * @param {number} n
+	 * @return {this}
 	 */
-	scalarMultiplyToSelf(n) {
+	multiplyScalarToSelf(n) {
 		this._x *= n;
 		this._y *= n;
+
+		return this;
 	}
 
 	/**
@@ -96,7 +115,7 @@ export class Vector2 {
 	 * @return {Vector2} 自身のベクトルの逆ベクトル
 	 */
 	unaryMinus() {
-		return this.scalarMultiply(-1);
+		return this.multiplyScalar(-1);
 	}
 
 	/**
@@ -111,9 +130,12 @@ export class Vector2 {
 	/**
 	 * 自分自身からベクトルを引く (破壊的操作)
 	 * @param {Vector2} opponent 
+	 * @return {this}
 	 */
 	subtractToSelf(opponent) {
 		this.addToSelf(opponent.unaryMinus());
+
+		return this;
 	}
 
 	/**
@@ -134,8 +156,19 @@ export class Vector2 {
 		return this._x * opponent._y - this._y * opponent._x;
 	}
 
-	// 自身を複製する
-	copy() {
-		return new Vector2(this);
+	/**
+	 * Vector2 の値を自身にコピーする
+	 * @param {Vector2} v 
+	 * @return {this}
+	 */
+	copyFrom(v) {
+		this._x = v.x;
+		this._y = v.y;
+
+		return this;
+	}
+
+	angle() {
+		return Math.atan2(this._y, this._x);
 	}
 }
