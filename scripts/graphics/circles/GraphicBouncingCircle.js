@@ -22,6 +22,12 @@ export class GraphicBouncingCircle {
 
 	/**
 	 * @private
+	 * @type {Vector2}
+	 */
+	_beforeSmallPosition;
+
+	/**
+	 * @private
 	 * @type {CircleCanvas2d} 
 	 */
 	_bigCircle;
@@ -54,8 +60,13 @@ export class GraphicBouncingCircle {
 		this._smallCircle = new CircleCanvas2d(this._canvasCenter.x, this._canvasCenter.y, 20);
 		this._smallCircle.fillStyle = "green";
 		this._bigCircle = new CircleCanvas2d(this._canvasCenter.x, this._canvasCenter.y, 300);
-		this._frameMoveSpeed = this.INITIAL_MOVE_SPEED.copy();
+		this._frameMoveSpeed = new Vector2().copyFrom(this.INITIAL_MOVE_SPEED);
 		this._acceleration = new Vector2(0, 1);
+
+		this._frameMoveSpeed.subtractToSelf(this._acceleration);
+		this._smallCircle.position.subtractToSelf(this._frameMoveSpeed);
+
+		this._beforeSmallPosition = new Vector2();
 
 		return 1;
 	}
@@ -66,11 +77,35 @@ export class GraphicBouncingCircle {
 	 * @returns {number}
 	 */
 	update(context) {
-		// 衝突していたら真ん中に戻す
+		this._beforeSmallPosition.copyFrom(this._smallCircle.position);
+		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
+		
+		// 衝突していたら跳ね返る
 		if (this._bigCircle.innerCollisionToCircle(this._smallCircle)) {
-			this._smallCircle.position = this._canvasCenter;
-			this._frameMoveSpeed = this.INITIAL_MOVE_SPEED.copy();
+			const smallPos = this._smallCircle.position;
+			const bigPos = this._bigCircle.position;
+			const distance = smallPos.subtract(bigPos);
+			const beforeDistance = this._beforeSmallPosition.subtract(bigPos);
+
+			// はみ出した分を戻す
+			const protrudingRate = Math.max(Math.min((distance.norm() - (this._bigCircle.radius - this._smallCircle.radius)) / (distance.norm() - beforeDistance.norm()), 1), 0);
+			smallPos.subtractToSelf(this._frameMoveSpeed.multiplyScalar(protrudingRate));
+
+			const fixDistance = smallPos.subtract(bigPos);
+
+			// big circle の中心から見た角度を元に跳ね返る角度を算出
+			const distanceAngle = fixDistance.angle();
+			const angleAfterBounce = distanceAngle + (distanceAngle - this._frameMoveSpeed.angle()) + Math.PI;
+
+			// 移動速度ベクトルに設定
+			const moveNorm = this._frameMoveSpeed.norm();
+			this._frameMoveSpeed.setByPolar(moveNorm, angleAfterBounce);
+
+			// さっきはみ出していた分だけ進める
+			smallPos.addToSelf(this._frameMoveSpeed.multiplyScalar(protrudingRate));
 		}
+
+		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
@@ -89,9 +124,6 @@ export class GraphicBouncingCircle {
 
 		// small circle
 		this._smallCircle.drawCircle(context);
-
-		this._smallCircle.position.addToSelf(this._frameMoveSpeed);
-		this._frameMoveSpeed.addToSelf(this._acceleration);
 
 		return 1;
 	}
